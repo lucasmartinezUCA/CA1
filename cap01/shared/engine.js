@@ -751,7 +751,7 @@
       var dx = e.clientX - orbit.x, dy = e.clientY - orbit.y, k = zoom * 0.0035;
       if (mode === 'side') {
         focus = clampF(orbit.focus - dx * k);
-        if (e.pointerType === 'mouse') yaw = Math.max(-0.6, Math.min(0.6, orbit.yaw - dy * 0.004));
+        if (e.pointerType === 'mouse') yaw = Math.max(-0.02, Math.min(0.6, orbit.yaw - dy * 0.004));
       } else {
         yaw = Math.max(-0.9, Math.min(0.9, orbit.yaw - dx * 0.005));
         if (e.pointerType === 'mouse') focus = clampF(orbit.focus + dy * k);
@@ -844,9 +844,11 @@
       var k = Math.max(0, Math.min(1, (d - ZMIN) / (12 - ZMIN)));
       var wSide = camAz / (Math.PI / 2);
       var pitch = (1 - wSide) * (0.08 + 0.4 * (1 - k) * (1 - k)) + wSide * (0.035 + 0.06 * (1 - k)) + (side ? camYaw : 0);
+      pitch = Math.max(0.03, Math.min(1.2, pitch)); /* never tilt below the floor */
       var az = camAz + (side ? 0 : camYaw);
       target.set(0, 0.35, -camF * S - 1.2 * (1 - wSide));
       camera.position.set(target.x + Math.sin(az) * Math.cos(pitch) * d, Math.sin(pitch) * d + 0.35, target.z + Math.cos(az) * Math.cos(pitch) * d);
+      if (camera.position.y < 0.3) camera.position.y = 0.3; /* the camera stays above the grid */
       camera.lookAt(target);
       recentre(Math.round(camF));
       lineMesh.position.x = 0; lineGlow.position.x = 0;
