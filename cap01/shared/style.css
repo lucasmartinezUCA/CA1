@@ -176,3 +176,13 @@ html,body{margin:0;padding:0;background:transparent;font-family:DM Sans,Arial,sa
 #u3d-lab-section .u3d.rl-app .u3d-stage.u3d-fs-on{height:100vh;flex:none}
 #u3d-lab-section .rl-intro{margin:0 0 10px;font-size:.95rem;line-height:1.7;color:var(--u-text)}
 #u3d-lab-section .rl-go{margin-top:12px}
+/* Side by side from 600 px of width (the AVA frame is often narrower than it looks on a scaled screen) */
+@container (min-width:600px){
+  #u3d-lab-section .u3d.rl-app .u3d-stage{grid-template-columns:minmax(0,1fr) minmax(270px,340px);grid-template-rows:none}
+  #u3d-lab-section .u3d.rl-app .u3d-panel{border-left:1px solid var(--u-line);border-top:0;padding:12px 14px 16px}
+  #u3d-lab-section .u3d.rl-app .u3d-legend{display:flex}
+}
+/* The title and intro always stay visible in the panel */
+#u3d-lab-section .u3d.rl-app .rl-ptitle{display:block!important}
+#u3d-lab-section .rl-ptitle strong{display:block;font-size:1.1rem}
+@container (max-width:599px){#u3d-lab-section .rl-ptitle strong{font-size:.98rem}}

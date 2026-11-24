@@ -46,7 +46,7 @@
     '</div>' +
     '</div>' +
     '<div class="u3d-panel">' +
-    '<div class="rl-ptitle"><span class="u3d-kicker">Interactive 3D Lab \u00b7 ' + phaseLabel + '</span><strong>' + PH.short + '</strong></div>' +
+    '<div class="rl-ptitle"><span class="u3d-kicker">Interactive 3D Lab \u00b7 ' + phaseLabel + '</span><strong>' + PH.title + '</strong></div>' +
     '<div class="u3d-tabs" role="tablist" aria-label="Lab sections"><button type="button" role="tab" data-tab="task" aria-selected="true">1 Task</button><button type="button" role="tab" data-tab="guide" aria-selected="false">2 How it works</button></div>' +
     '<div class="u3d-pane" data-pane="task" role="tabpanel"><div class="rl-task"><p class="rl-intro">' + PH.intro + '</p><p class="u3d-note">Your progress stays in this browser only and is not submitted.</p><p class="u3d-help rl-go">Press <b>Start the lab</b> to load the scene and receive your first task.</p></div></div>' +
     '<div class="u3d-pane" data-pane="guide" role="tabpanel" hidden>' + PH.guide + '<p class="u3d-help"><b>Moving around.</b> Click the scene first. A and D (or \u2190 \u2192) move your answer along the line; when there are two drones, click one to select it. W and S (or \u2191 \u2193) walk the camera, and the \u2212\u221e and +\u221e buttons do the same with a growing pace. Go back to 0 returns to zero, and Side view shows the line from beside it.</p></div>' +
