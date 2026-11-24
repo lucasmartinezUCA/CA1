@@ -111,7 +111,7 @@
         return a;
       }
       case 'read': return { choice: null, removed: [] };
-      case 'param': { var o = {}; it.params.forEach(function (q) { o[q.id] = q.init; }); return o; }
+      case 'param': { var o = {}; it.params.forEach(function (q) { o[q.id] = q.opts ? q.init : null; }); return o; }
     }
     return {};
   }
@@ -169,7 +169,7 @@
     } else if (it.type === 'param') {
       it.params.forEach(function (q) {
         if (q.opts) h += '<div class="rl-step rl-pstep"><span class="rl-lab">' + q.label + '</span></div>' + seg('popt:' + q.id, q.opts.map(function (t, i) { return [String(i), t]; }));
-        else h += '<div class="rl-step"><span class="rl-lab">' + q.label + '</span><div class="rl-stepc"><button type="button" data-act="pv:' + q.id + ':-1" aria-label="' + q.label + ' down">\u25c0</button><input class="rl-pin" type="text" inputmode="numeric" autocomplete="off" data-pin="' + q.id + '" aria-label="' + q.label + '"><button type="button" data-act="pv:' + q.id + ':1" aria-label="' + q.label + ' up">\u25b6</button></div></div>';
+        else h += '<div class="rl-step"><span class="rl-lab">' + q.label + '</span><div class="rl-stepc"><input class="rl-pin" type="text" inputmode="numeric" autocomplete="off" placeholder="?" data-pin="' + q.id + '" aria-label="' + q.label + '"></div></div>';
       });
       h += '<p class="rl-live">Your expression: <b data-out="pexpr"></b></p>';
     } else if (it.type === 'read') {
@@ -182,7 +182,7 @@
     taskEl.querySelectorAll('[data-pin]').forEach(function (inpP) {
       inpP.addEventListener('change', function () {
         var q = it.params.filter(function (x) { return x.id === inpP.getAttribute('data-pin'); })[0], v = parseInt(String(inpP.value).replace('\u2212', '-'), 10);
-        if (!isNaN(v) && !st.done) { st.ans[q.id] = Math.max(q.min, Math.min(q.max, v)); st.flash = null; }
+        if (!st.done) { st.ans[q.id] = isNaN(v) ? null : Math.max(q.min, Math.min(q.max, v)); st.flash = null; }
         readouts(); sync();
       });
       inpP.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); inpP.dispatchEvent(new Event('change')); act('check'); } });
@@ -210,9 +210,9 @@
     if (it.type === 'param') {
       it.params.forEach(function (q) {
         if (q.opts) press('popt:' + q.id, String(a[q.id]));
-        else { var e = taskEl.querySelector('[data-pin="' + q.id + '"]'); if (e && document.activeElement !== e) e.value = fmt(a[q.id]); }
+        else { var e = taskEl.querySelector('[data-pin="' + q.id + '"]'); if (e && document.activeElement !== e) e.value = a[q.id] == null ? '' : fmt(a[q.id]); }
       });
-      var pe = taskEl.querySelector('[data-out="pexpr"]'); if (pe) pe.innerHTML = it.expr(a) + ' \u2248 ' + fmt(Math.round(it.value(a) * 1000) / 1000);
+      var pe = taskEl.querySelector('[data-out="pexpr"]'); if (pe) pe.innerHTML = paramsReady(it, a) ? it.expr(a) + ' \u2248 ' + fmt(Math.round(it.value(a) * 1000) / 1000) : '<span class="rl-wait">type your answer</span>';
     }
     if (it.type === 'read') {
       press('opt', a.choice == null ? null : String(a.choice));
@@ -306,9 +306,10 @@
       taskEl.innerHTML = '<div class="u3d-act active rl-fin"><p class="rl-prompt"><b>Phase complete.</b> Close this lab and continue reading the chapter below.</p><button type="button" class="u3d-btn quiet" data-act="more">Practise more</button></div>';
     }
   });
+  function paramsReady(it, a) { return it.params.every(function (q) { return a[q.id] != null; }); }
   function check() {
     var it = st.item; if (st.done) return;
-    var r = C.evaluate(it, st.ans);
+    var r = it.type === 'param' && !paramsReady(it, st.ans) ? { invalid: 'Type a value in every field first.' } : C.evaluate(it, st.ans);
     if (!r.invalid) showTake(false);
     if (r.invalid) { feedback('hint', 'Not yet', r.invalid); return; }
     var sk = store.skills[it.skill], mine = yours(it, st.ans);
@@ -386,7 +387,7 @@
     if (it.type === 'read') s.beam = it.iv;
     if (it.type === 'param') {
       s.pins.push({ x: it.target, text: it.targetLabel });
-      s.markers.push({ id: 'pm', x: it.value(a), col: 'stu', label: st.flash ? it.expr(a) : null });
+      if (paramsReady(it, a)) s.markers.push({ id: 'pm', x: it.value(a), col: 'stu', label: st.flash ? it.expr(a) : null });
     }
     return s;
   }

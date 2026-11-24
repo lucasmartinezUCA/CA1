@@ -286,7 +286,7 @@
   C.fixed = fixed;
   C.gen = gen;
 
-  var common = '<p class="u3d-help">Set each parameter with the arrows or type a value. The purple marker lands on the value of the expression you built; the gold pin marks the target. A wrong answer opens a hint, and the third hint shows the solution followed by a similar task.</p><p class="u3d-help">Three correct answers complete the phase. You can then return to the chapter or keep practising.</p>';
+  var common = '<p class="u3d-help">Type your answer in each field and press Enter or Check answer. The purple marker lands on the value of the expression you built; the gold pin marks the target. A wrong answer opens a hint, and the third hint shows the solution followed by a similar task.</p><p class="u3d-help">Three correct answers complete the phase. You can then return to the chapter or keep practising.</p>';
   var legend = [['var(--rl-stu)', 'Your expression'], ['var(--rl-gold)', 'Target']];
   C.phases = {
     powers: { n: 1, skills: ['powers'], legend: legend, title: 'Power Line: exponents', short: 'Exponents',

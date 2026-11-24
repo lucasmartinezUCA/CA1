@@ -192,3 +192,4 @@ html,body{margin:0;padding:0;background:transparent;font-family:DM Sans,Arial,sa
 #u3d-lab-section .rl-res p{margin:2px 0 4px}
 #u3d-lab-section .rl-res ul{margin:0;padding-left:18px}
 #u3d-lab-section .rl-prompt sup,#u3d-lab-section .rl-live sup,#u3d-lab-section .u3d-result sup,#u3d-lab-section .u3d-mlabel sup,#u3d-lab-section .u3d-seg sup{font-size:.7em;line-height:0}
+#u3d-lab-section .rl-wait{font-weight:400;color:var(--u-muted);font-style:italic}
