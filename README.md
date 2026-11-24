@@ -1,3 +1,3 @@
 # CA1
 
-In AVA put 602px
+In the VLE, ​​set it to 602 pixels.
